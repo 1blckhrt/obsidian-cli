@@ -1,9 +1,12 @@
-#!/usr/bin/env node
 import process from 'node:process'
 import { program } from 'commander'
 
 function listFiles() {
   console.log('Listing files.')
+}
+
+function deleteFiles(title: string) {
+  console.log(`Deleting file ${title}`)
 }
 
 function searchFiles(phrase: string) {
@@ -18,6 +21,10 @@ function backupVault(backupPath: string) {
   console.log(`Backing up vault to ${backupPath}`)
 }
 
+function getStats() {
+  console.log(`Getting the statistics of your vault.`)
+}
+
 program.name('obsidian-cli').description('CLI tool for managing Obsidian vaults').version('1.0.0')
 
 program
@@ -25,6 +32,14 @@ program
   .description('Lists all files in your vault.')
   .action(() => {
     listFiles()
+  })
+
+program
+  .command('delete')
+  .description('Delete a specific note in your vault.')
+  .argument('<title>', 'Title of the note you want to delete.')
+  .action((title) => {
+    deleteFiles(title)
   })
 
 program
@@ -49,6 +64,13 @@ program
   .argument('<backupPath>', 'Path to the backup location')
   .action((backupPath) => {
     backupVault(backupPath)
+  })
+
+program
+  .command('stats')
+  .description('Displays statistics about your vault and its notes.')
+  .action(() => {
+    getStats()
   })
 
 program.parse(process.argv)
