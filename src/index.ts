@@ -1,6 +1,18 @@
 import process from 'node:process'
 import { program } from 'commander'
 import { commands } from './commands/index.js'
+import { checkConfigFile } from './util/helpers.js'
+
+async function main() {
+  try {
+    await checkConfigFile()
+  } catch (error) {
+    console.error('Error reading config file:', error instanceof Error ? error.message : error)
+    process.exit(1)
+  }
+}
+
+await main()
 
 program.name('obsidian-cli').description('CLI tool for managing Obsidian vaults').version('1.0.0')
 
