@@ -10,7 +10,6 @@
     "commitlint": "commitlint --edit",
     "fix": "eslint --fix src && prettier --write .",
     "build": "tsc && pnpm unlink --global && pnpm link --global",
-    "postbuild": "chmod +x dist/index.js",
     "clean": "rm -rf ~/.config/obsidian-cli"
   },
   "keywords": [],
@@ -32,6 +31,8 @@
   },
   "dependencies": {
     "@inquirer/prompts": "^7.4.0",
-    "commander": "^13.1.0"
+    "commander": "^13.1.0",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   }
 }

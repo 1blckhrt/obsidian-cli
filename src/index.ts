@@ -1,18 +1,19 @@
 import process from 'node:process'
 import { program } from 'commander'
 import { commands } from './commands/index.js'
-import { checkConfigFile } from './util/helpers.js'
+import { createAllFiles, checkConfigFile } from './util/helpers.js'
 
-async function main() {
+async function initialize() {
   try {
-    await checkConfigFile()
+    await createAllFiles()
+    const config = await checkConfigFile()
+    console.log('Configuration loaded:', config)
   } catch (error) {
-    console.error('Error reading config file:', error instanceof Error ? error.message : error)
-    process.exit(1)
+    console.error('Error initializing the application:', error)
   }
 }
 
-await main()
+await initialize()
 
 program.name('obsidian-cli').description('CLI tool for managing Obsidian vaults').version('1.0.0')
 
