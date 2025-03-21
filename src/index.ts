@@ -1,15 +1,16 @@
 import process from 'node:process'
 import { program } from 'commander'
 import { commands } from './commands/index.js'
+import { logger } from './util/constants.js'
 import { createAllFiles, checkConfigFile } from './util/helpers.js'
 
 async function initialize() {
   try {
     await createAllFiles()
-    const config = await checkConfigFile()
-    console.log('Configuration loaded:', config)
+    await checkConfigFile()
+    logger.info('Configuration file loaded successfully.')
   } catch (error) {
-    console.error('Error initializing the application:', error)
+    logger.error('Error initializing the application:', error)
   }
 }
 

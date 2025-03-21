@@ -10,7 +10,7 @@
     "commitlint": "commitlint --edit",
     "fix": "eslint --fix src && prettier --write .",
     "build": "tsc && pnpm unlink --global && pnpm link --global",
-    "clean": "rm -rf ~/.config/obsidian-cli"
+    "clean": "rm ~/.config/obsidian-cli/config.json && rm ~/.local/share/obsidian-cli/logs/*.log "
   },
   "keywords": [],
   "author": "",

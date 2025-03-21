@@ -1,14 +1,21 @@
 import { promises as fs } from 'node:fs'
-import { CONFIG_DIR, CONFIG_PATH, LOG_DIR, LOG_PATH, type CONFIG_TEMPLATE } from './constants.js'
+import {
+  CONFIG_DIR,
+  CONFIG_PATH,
+  LOG_DIR,
+  LOG_PATH,
+  logger,
+  type CONFIG_TEMPLATE,
+} from './constants.js'
 
 async function createDirectory(path: string) {
   try {
     await fs.mkdir(path, { recursive: true })
   } catch (error: any) {
     if (error.code === 'EEXIST') {
-      console.error(`Directory already exists at ${path}`)
+      logger.info(`Directory already exists at ${path}`)
     } else {
-      console.error(`Error creating directory at ${path}:`, error)
+      logger.info(`Error creating directory at ${path}:`, error)
     }
   }
 }
@@ -18,19 +25,10 @@ async function createFile(path: string) {
     await fs.writeFile(path, '', { flag: 'wx' })
   } catch (error: any) {
     if (error.code === 'EEXIST') {
-      console.error(`File already exists at ${path}`)
+      logger.info(`File already exists at ${path}`)
     } else {
-      console.error(`Error creating file at ${path}:`, error)
+      logger.error(`Error creating file at ${path}:`, error)
     }
-  }
-}
-
-async function readConfigFile() {
-  try {
-    return JSON.parse(await fs.readFile(CONFIG_PATH, 'utf8'))
-  } catch (error) {
-    console.error(`Error reading config file at ${CONFIG_PATH}:`, error)
-    throw error
   }
 }
 
@@ -42,9 +40,21 @@ async function createDefaultConfig() {
 
 export async function checkConfigFile() {
   try {
-    return await readConfigFile()
-  } catch {
-    console.error(`Config file not found at ${CONFIG_PATH}. Creating a new one...`)
+    const config = await fs.readFile(CONFIG_PATH, 'utf8')
+
+    if (!config.trim()) {
+      logger.info(`Config file is empty at ${CONFIG_PATH}. Creating a new one...`)
+      return await createDefaultConfig()
+    }
+
+    return JSON.parse(config)
+  } catch (error: any) {
+    if (error.code === 'ENOENT') {
+      logger.info(`Config file not found at ${CONFIG_PATH}. Creating a new one...`)
+    } else {
+      logger.error(`Error reading config file at ${CONFIG_PATH}:`, error)
+    }
+
     return createDefaultConfig()
   }
 }
