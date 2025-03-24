@@ -37,8 +37,8 @@ program
   .command('search')
   .description('Search for a specific phrase in your Vault.')
   .argument('<phrase>', 'Phrase that you want to search for')
-  .action((phrase) => {
-    commands.searchFiles(phrase);
+  .action(async (phrase) => {
+    await commands.searchFiles(phrase);
   });
 
 program
