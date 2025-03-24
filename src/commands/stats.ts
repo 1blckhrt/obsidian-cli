@@ -1,3 +1,3 @@
 export default function getStats() {
-  console.log(`Getting the statistics of your vault.`)
+  console.log(`Getting the statistics of your vault.`);
 }

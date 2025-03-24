@@ -1,3 +1,3 @@
 export default function listFiles() {
-  console.log('Listing files.')
+  console.log('Listing files.');
 }

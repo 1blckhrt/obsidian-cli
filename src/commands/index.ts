@@ -1,9 +1,9 @@
-import backupVault from './backup.js'
-import createFile from './create.js'
-import deleteFile from './delete.js'
-import listFiles from './list.js'
-import searchFiles from './search.js'
-import getStats from './stats.js'
+import backupVault from './backup.js';
+import createFile from './create.js';
+import deleteFile from './delete.js';
+import listFiles from './list.js';
+import searchFiles from './search.js';
+import getStats from './stats.js';
 
 export const commands = {
   backupVault,
@@ -12,4 +12,4 @@ export const commands = {
   listFiles,
   searchFiles,
   getStats,
-}
+};
