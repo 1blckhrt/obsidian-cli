@@ -8,7 +8,7 @@ import {
   type CONFIG_TEMPLATE,
 } from './constants.js';
 
-async function createDirectory(path: string) {
+export async function createDirectory(path: string) {
   try {
     await fs.mkdir(path, { recursive: true });
   } catch (error: any) {
@@ -20,7 +20,7 @@ async function createDirectory(path: string) {
   }
 }
 
-async function createFile(path: string) {
+export async function createFile(path: string) {
   try {
     await fs.writeFile(path, '', { flag: 'wx' });
   } catch (error: any) {

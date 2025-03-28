@@ -22,7 +22,7 @@ program
   .command('list')
   .description('Lists all files in your vault.')
   .action(() => {
-    commands.listFiles();
+    commands.listNotes();
   });
 
 program
@@ -30,7 +30,7 @@ program
   .description('Delete a specific note in your vault.')
   .argument('<title>', 'Title of the note you want to delete.')
   .action((title) => {
-    commands.deleteFile(title);
+    commands.deleteNote(title);
   });
 
 program
@@ -38,7 +38,7 @@ program
   .description('Search for a specific phrase in your Vault.')
   .argument('<phrase>', 'Phrase that you want to search for')
   .action(async (phrase) => {
-    await commands.searchFiles(phrase);
+    await commands.searchNotes(phrase);
   });
 
 program
@@ -46,7 +46,7 @@ program
   .description('Create a note with a specific title.')
   .argument('<title>', 'Title of the note')
   .action((title) => {
-    commands.createFile(title);
+    commands.createNote(title);
   });
 
 program

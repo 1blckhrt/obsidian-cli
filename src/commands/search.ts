@@ -5,7 +5,7 @@ import fastGlob from 'fast-glob';
 import Fuse from 'fuse.js';
 import { getVaultPath } from '../util/helpers.js';
 
-export default async function searchFiles(query: string) {
+export default async function searchNotes(query: string) {
   const directory = path.resolve(await getVaultPath());
   const files = await fastGlob(`${directory}/**/*.md`);
 
