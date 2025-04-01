@@ -34,27 +34,29 @@ program
   });
 
 program
-  .command('search')
-  .description('Search for a specific phrase in your Vault.')
+  .command('edit')
+  .description(
+    'Search for a specific phrase in your Vault to edit. Fuzzy searches files and contents.'
+  )
   .argument('<phrase>', 'Phrase that you want to search for')
   .action(async (phrase) => {
-    await commands.searchNotes(phrase);
+    await commands.editNote(phrase);
   });
 
 program
   .command('create')
-  .description('Create a note with a specific title.')
+  .description('Create a note and edit it.')
   .argument('<title>', 'Title of the note')
-  .action((title) => {
-    commands.createNote(title);
+  .action(async (title) => {
+    await commands.createNote(title);
   });
 
 program
   .command('backup')
   .description('Backup your vault to a specified directory')
   .argument('<backupPath>', 'Path to the backup location')
-  .action((backupPath) => {
-    commands.backupVault(backupPath);
+  .action(async (backupPath) => {
+    await commands.backupVault(backupPath);
   });
 
 program
