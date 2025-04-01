@@ -19,13 +19,6 @@ await initialize();
 program.name('obsidian-cli').description('CLI tool for managing Obsidian vaults').version('1.0.0');
 
 program
-  .command('list')
-  .description('Lists all files in your vault.')
-  .action(() => {
-    commands.listNotes();
-  });
-
-program
   .command('delete')
   .description('Delete a specific note in your vault.')
   .argument('<title>', 'Title of the note you want to delete.')
