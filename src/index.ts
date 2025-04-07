@@ -2,7 +2,7 @@ import process from 'node:process';
 import { program } from 'commander';
 import { commands } from './commands/index.js';
 import { logger } from './util/constants.js';
-import { createAllFiles, checkConfigFile } from './util/helpers.js';
+import { checkConfigFile, createAllFiles } from './util/helpers.js';
 
 async function initialize() {
   try {
@@ -22,8 +22,8 @@ program
   .command('delete')
   .description('Delete a specific note in your vault.')
   .argument('<title>', 'Title of the note you want to delete.')
-  .action((title) => {
-    commands.deleteNote(title);
+  .action(async (title) => {
+    await commands.deleteNote(title);
   });
 
 program
