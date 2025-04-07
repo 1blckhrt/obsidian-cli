@@ -25,7 +25,7 @@ jobs:
         run: bun install --omit dev
 
       - name: Build executable with Bun
-        run: bun build ./src/index.ts --compile --outfile=dist/obsidian-cli
+        run: bun build src/index.ts --compile --outfile=dist/obsidian-cli --external:@types/node
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
