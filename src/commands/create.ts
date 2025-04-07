@@ -1,17 +1,25 @@
 import { writeFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { dirname, join, normalize } from 'node:path';
 import { editor } from '@inquirer/prompts';
-import { getVaultPath } from '../util/helpers.js';
+import { logger } from '../util/constants.js';
+import { createDirectory, getVaultPath } from '../util/helpers.js';
 
 export default async function createNote(title: string) {
   console.log(`Creating note with the title ${title}`);
 
-  let fileName = title.replace('.md', '');
-  fileName = `${title.replaceAll(/\s+/g, '_')}.md`;
+  const fileName = title.replace(/\.md$/, '').replaceAll(/\s+/g, '_') + '.md';
 
   const vaultPath = await getVaultPath();
 
-  const filePath = join(vaultPath, fileName);
+  const filePath = normalize(join(vaultPath, fileName));
+
+  if (!filePath.startsWith(vaultPath)) {
+    logger.error('Invalid path: trying to write outside the vault.');
+    return;
+  }
+
+  const dirPath = dirname(filePath);
+  await createDirectory(dirPath);
 
   const content = await editor({
     message: 'Edit the file content:',
