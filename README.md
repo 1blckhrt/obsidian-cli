@@ -11,7 +11,7 @@ A simple CLI tool for managing your Obsidian note files in the terminal.
 - **Stats**: Get a bird's-eye view of your vault with:
   - Total notes count
   - Total folders count
-  - Total word count across all notes
+  - Average word count per note
 
 ## Getting Started
 
