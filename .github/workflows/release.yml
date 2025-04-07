@@ -33,7 +33,7 @@ jobs:
         run: npm install --save-dev nexe
 
       - name: Build executable with Nexe
-        run: npx nexe dist/bundle.js --targets node23-linux-x64 --output dist/obsidian-cli
+        run: npx nexe dist/bundle.js --targets node23-linux-x64 --output dist/obsidian-cli --build
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@v2
