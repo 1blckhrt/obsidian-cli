@@ -1,0 +1,42 @@
+name: Build and Publish Binary
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4.2.2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4.3.0
+        with:
+          node-version: '23.10.0'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build TypeScript project
+        run: npm run prepare
+
+      - name: Bundle TypeScript project
+        run: |
+          npm install --save-dev esbuild
+          npx esbuild src/index.ts --bundle --outfile=dist/bundle.js
+
+      - name: Create binary from bundled JavaScript
+        run: |
+          npm install --save-dev pkg
+          npx pkg dist/bundle.js --targets node23-linux-x64 --output dist/obsidian-cli
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/obsidian-cli
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
