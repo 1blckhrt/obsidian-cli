@@ -27,7 +27,7 @@ jobs:
       - name: Bundle TypeScript project
         run: |
           npm install --save-dev esbuild
-          npx esbuild src/index.ts --bundle --outfile=dist/bundle.js
+          npx esbuild src/index.ts --bundle --platform=node --format=esm --outfile=dist/bundle.js
 
       - name: Create binary from bundled JavaScript
         run: |
