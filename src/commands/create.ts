@@ -10,8 +10,6 @@ import { createDirectory, getVaultPath } from '../util/helpers.js';
  * @param title - The title of the created note
  */
 export default async function createNote(title: string) {
-  logger.info(`Creating note with the title ${title}`);
-
   const fileName = title.replace(/\.md$/, '').replaceAll(/\s+/g, '_') + '.md';
 
   const vaultPath = await getVaultPath();

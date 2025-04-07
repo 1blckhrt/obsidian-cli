@@ -7,8 +7,6 @@ import { getMarkdownFiles, getVaultPath } from '../util/helpers.js';
  * Gets statistics of the vault.
  */
 export default async function getStats() {
-  logger.info(`Getting the statistics of your vault.`);
-
   const vaultPath = await getVaultPath();
   const files = await getMarkdownFiles(vaultPath);
 

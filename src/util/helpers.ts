@@ -1,13 +1,6 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import {
-  CONFIG_DIR,
-  CONFIG_PATH,
-  LOG_DIR,
-  LOG_PATH,
-  logger,
-  type CONFIG_TEMPLATE,
-} from './constants.js';
+import { CONFIG_DIR, CONFIG_PATH, LOG_DIR, LOG_PATH, type CONFIG_TEMPLATE } from './constants.js';
 
 /**
  * Creates a directory.
@@ -18,10 +11,8 @@ export async function createDirectory(path: string) {
   try {
     await fs.mkdir(path, { recursive: true });
   } catch (error: any) {
-    if (error.code === 'EEXIST') {
-      logger.info(`Directory already exists at ${path}`);
-    } else {
-      logger.info(`Error creating directory at ${path}:`, error);
+    if (error.code !== 'EEXIST') {
+      console.error(`Error creating directory at ${path}:`, error);
     }
   }
 }
@@ -35,10 +26,8 @@ export async function createFile(path: string) {
   try {
     await fs.writeFile(path, '', { flag: 'wx' });
   } catch (error: any) {
-    if (error.code === 'EEXIST') {
-      logger.info(`File already exists at ${path}`);
-    } else {
-      logger.error(`Error creating file at ${path}:`, error);
+    if (error.code !== 'EEXIST') {
+      console.error(`Error creating file at ${path}:`, error);
     }
   }
 }
@@ -48,11 +37,16 @@ export async function createFile(path: string) {
  */
 export async function createDefaultConfig() {
   const defaultConfig: CONFIG_TEMPLATE = { vaultPath: '~/Obsidian' };
-  await fs.writeFile(CONFIG_PATH, JSON.stringify(defaultConfig, null, 2));
+  try {
+    await fs.writeFile(CONFIG_PATH, JSON.stringify(defaultConfig, null, 2));
+  } catch (error: any) {
+    console.error(`Error creating default config at ${CONFIG_PATH}:`, error);
+  }
+
   return defaultConfig;
 }
 
-/*
+/**
  * Checks the configuration directory for the configuration file.
  */
 export async function checkConfigFile() {
@@ -60,16 +54,15 @@ export async function checkConfigFile() {
     const config = await fs.readFile(CONFIG_PATH, 'utf8');
 
     if (!config.trim()) {
-      logger.info(`Config file is empty at ${CONFIG_PATH}. Creating a new one...`);
       return await createDefaultConfig();
     }
 
     return JSON.parse(config);
   } catch (error: any) {
     if (error.code === 'ENOENT') {
-      logger.info(`Config file not found at ${CONFIG_PATH}. Creating a new one...`);
+      await createDefaultConfig();
     } else {
-      logger.error(`Error reading config file at ${CONFIG_PATH}:`, error);
+      console.error(`Error reading config file at ${CONFIG_PATH}:`, error);
     }
 
     return createDefaultConfig();
@@ -77,36 +70,40 @@ export async function checkConfigFile() {
 }
 
 /**
- * Grabs all of the files in the directory specified and returns them for usage
+ * Grabs all of the files in the directory specified and returns them for usage.
  *
  * @param dir - The directory to grab files from
  */
 export async function getMarkdownFiles(dir: string): Promise<string[]> {
   let results: string[] = [];
-  const files = fs.readdir(dir);
+  try {
+    const files = await fs.readdir(dir);
 
-  for (const file of await files) {
-    const filePath = path.join(dir, file);
-    const stat = fs.stat(filePath);
+    for (const file of files) {
+      const filePath = path.join(dir, file);
+      const stat = await fs.stat(filePath);
 
-    if ((await stat).isDirectory()) {
-      results = results.concat(await getMarkdownFiles(filePath));
-    } else if (file.endsWith('.md')) {
-      results.push(filePath);
+      if (stat.isDirectory()) {
+        results = results.concat(await getMarkdownFiles(filePath));
+      } else if (file.endsWith('.md')) {
+        results.push(filePath);
+      }
     }
+  } catch (error: any) {
+    console.error(`Error reading files from directory ${dir}:`, error);
   }
 
   return results;
 }
 
-/*
+/**
  * Gets the vault path from the configuration file.
  */
 export async function getVaultPath() {
   return (await checkConfigFile()).vaultPath;
 }
 
-/*
+/**
  * Creates all configuration and log files.
  */
 export async function createAllFiles() {
