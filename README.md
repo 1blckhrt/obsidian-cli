@@ -13,6 +13,25 @@ A simple CLI tool for managing your Obsidian note files in the terminal.
   - Total folders count
   - Average word count per note
 
+## Installation
+
+- Grab the latest binary from the [Releases](https://github.com/1blckhrt/obsidian-cli/releases) page, and move it to a directory in your path.
+
+- Below are two commands you can run to install the binary. This requires `jq`, `curl`, and `wget` to be installed.
+
+```bash
+latest_tag=$(curl -s https://api.github.com/repos/1blckhrt/obsidian-cli/releases/latest | jq -r .tag_name)
+wget -P ~/.local/bin/ https://github.com/1blckhrt/obsidian-cli/releases/download/$latest_tag/obsidian-cli
+```
+
+- After installation, please set your vault path via the configuration file detailed below.
+
+## Configuration
+
+- Setting your vault path is done through a configuration file that is located at `~/.config/obsidian_cli/config.json`
+
+- Logs can be viewed in the log file located at `~/.local/share/obsidian-cli/logs/obsidian-cli.log`
+
 ## Getting Started
 
 For detailed information on how to use the CLI tool, please run `obsidian-cli` without any arguments or flags to see the help menu.
@@ -24,9 +43,3 @@ Basic commands are listed below:
 - `obsidian-cli create <title>`
 - `obsidian-cli backup <path>`
 - `obsidian-cli stats`
-
-## Configuration
-
-- Setting your vault path is done through a config file that is located at `~/.config/obsidian_cli/config.json`
-
-- Logs can be viewed in the log file located at `~/.local/share/obsidian-cli/logs/obsidian-cli.log`
