@@ -33,7 +33,7 @@ program
   .description(
     'Search for a specific phrase in your Vault to edit. Fuzzy searches through files and contents.'
   )
-  .argument('<phrase>', 'Phrase that you want to search for')
+  .argument('<phrase>', 'Phrase that you want to search for.')
   .action(async (phrase) => {
     await commands.editNote(phrase);
   });
@@ -41,7 +41,7 @@ program
 program
   .command('create')
   .description('Create a note and edit it.')
-  .argument('<title>', 'Title of the note')
+  .argument('<title>', 'Title of the note.')
   .action(async (title) => {
     await commands.createNote(title);
   });
@@ -49,7 +49,7 @@ program
 program
   .command('backup')
   .description('Backup your vault to a specified directory.')
-  .argument('<backupPath>', 'Path to the backup location')
+  .argument('<backupPath>', 'Path to the backup location.')
   .action(async (backupPath) => {
     await commands.backupVault(backupPath);
   });
