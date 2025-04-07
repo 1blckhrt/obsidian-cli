@@ -23,7 +23,7 @@ Basic commands are listed below:
 - `obsidian-cli edit <phrase>`
 - `obsidian-cli create <title>`
 - `obsidian-cli backup <path>`
-- `obsidian-cli <stats>`
+- `obsidian-cli stats`
 
 ## Configuration
 
