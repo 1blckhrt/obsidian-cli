@@ -2,6 +2,9 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { getMarkdownFiles, getVaultPath } from '../util/helpers.js';
 
+/*
+ * Gets statistics of the vault.
+ */
 export default async function getStats() {
   console.log(`Getting the statistics of your vault.`);
 

@@ -4,6 +4,11 @@ import { editor } from '@inquirer/prompts';
 import { logger } from '../util/constants.js';
 import { createDirectory, getVaultPath } from '../util/helpers.js';
 
+/**
+ * Creates a note.
+ *
+ * @param title - The title of the created note
+ */
 export default async function createNote(title: string) {
   console.log(`Creating note with the title ${title}`);
 

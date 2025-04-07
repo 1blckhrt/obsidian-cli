@@ -4,6 +4,9 @@ import { commands } from './commands/index.js';
 import { logger } from './util/constants.js';
 import { checkConfigFile, createAllFiles } from './util/helpers.js';
 
+/*
+ * Initializes the configuration files.
+ */
 async function initialize() {
   try {
     await createAllFiles();

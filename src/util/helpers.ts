@@ -9,6 +9,11 @@ import {
   type CONFIG_TEMPLATE,
 } from './constants.js';
 
+/**
+ * Creates a directory.
+ *
+ * @param path - The path to the directory you want to create.
+ */
 export async function createDirectory(path: string) {
   try {
     await fs.mkdir(path, { recursive: true });
@@ -21,6 +26,11 @@ export async function createDirectory(path: string) {
   }
 }
 
+/**
+ * Creates a file.
+ *
+ * @param path - The path to the file you want to create.
+ */
 export async function createFile(path: string) {
   try {
     await fs.writeFile(path, '', { flag: 'wx' });
@@ -33,12 +43,18 @@ export async function createFile(path: string) {
   }
 }
 
-async function createDefaultConfig() {
+/**
+ * Creates the default configuration file.
+ */
+export async function createDefaultConfig() {
   const defaultConfig: CONFIG_TEMPLATE = { vaultPath: '~/Obsidian' };
   await fs.writeFile(CONFIG_PATH, JSON.stringify(defaultConfig, null, 2));
   return defaultConfig;
 }
 
+/*
+ * Checks the configuration directory for the configuration file.
+ */
 export async function checkConfigFile() {
   try {
     const config = await fs.readFile(CONFIG_PATH, 'utf8');
@@ -60,6 +76,11 @@ export async function checkConfigFile() {
   }
 }
 
+/**
+ * Grabs all of the files in the directory specified and returns them for usage
+ *
+ * @param dir - The directory to grab files from
+ */
 export async function getMarkdownFiles(dir: string): Promise<string[]> {
   let results: string[] = [];
   const files = fs.readdir(dir);
@@ -78,10 +99,16 @@ export async function getMarkdownFiles(dir: string): Promise<string[]> {
   return results;
 }
 
+/*
+ * Gets the vault path from the configuration file.
+ */
 export async function getVaultPath() {
   return (await checkConfigFile()).vaultPath;
 }
 
+/*
+ * Creates all configuration and log files.
+ */
 export async function createAllFiles() {
   await createDirectory(CONFIG_DIR);
   await createDirectory(LOG_DIR);

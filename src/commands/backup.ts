@@ -1,6 +1,11 @@
 import { promises as fs } from 'node:fs';
 import { getVaultPath } from '../util/helpers.js';
 
+/**
+ * Performs a backup to a specified directory.
+ *
+ * @param backupPath - The path to the backup directory.
+ */
 export default async function backupVault(backupPath: string) {
   console.log(`Backing up vault to ${backupPath}`);
 

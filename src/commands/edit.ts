@@ -4,6 +4,11 @@ import { editor, select } from '@inquirer/prompts';
 import Fuse from 'fuse.js';
 import { getMarkdownFiles, getVaultPath } from '../util/helpers.js';
 
+/**
+ * Edits a note based on the provided query which is searched for.
+ *
+ * @param query - The query being searched for.
+ */
 export default async function editNote(query: string) {
   const directory = path.resolve(await getVaultPath());
   const files = await getMarkdownFiles(directory);

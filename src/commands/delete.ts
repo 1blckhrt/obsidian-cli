@@ -4,6 +4,11 @@ import { select } from '@inquirer/prompts';
 import Fuse from 'fuse.js';
 import { getMarkdownFiles, getVaultPath } from '../util/helpers.js';
 
+/**
+ * Deletes a note based on a provided query.
+ *
+ * @param query - The phrase to search for across file names.
+ */
 export default async function deleteNote(query: string) {
   const directory = path.resolve(await getVaultPath());
   const files = await getMarkdownFiles(directory);
