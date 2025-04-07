@@ -22,8 +22,8 @@ program.name('obsidian-cli').description('CLI tool for managing Obsidian vaults'
 
 program
   .command('delete')
-  .description('Delete a specific note in your vault.')
-  .argument('<title>', 'Title of the note you want to delete. Fuzzy searches through file names.')
+  .description('Delete a specific note in your vault. Fuzzy searches through file names.')
+  .argument('<title>', 'Title of the note you want to delete.')
   .action(async (title) => {
     await commands.deleteNote(title);
   });
