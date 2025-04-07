@@ -1,13 +1,12 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { editor, select } from '@inquirer/prompts';
-import fastGlob from 'fast-glob';
 import Fuse from 'fuse.js';
-import { getVaultPath } from '../util/helpers.js';
+import { getMarkdownFiles, getVaultPath } from '../util/helpers.js';
 
 export default async function editNote(query: string) {
   const directory = path.resolve(await getVaultPath());
-  const files = await fastGlob(`${directory}/**/*.md`);
+  const files = await getMarkdownFiles(directory);
 
   console.log(`Found ${files.length} markdown files.`);
 

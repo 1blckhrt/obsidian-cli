@@ -1,4 +1,5 @@
 import { promises as fs } from 'node:fs';
+import path from 'node:path';
 import {
   CONFIG_DIR,
   CONFIG_PATH,
@@ -57,6 +58,24 @@ export async function checkConfigFile() {
 
     return createDefaultConfig();
   }
+}
+
+export async function getMarkdownFiles(dir: string): Promise<string[]> {
+  let results: string[] = [];
+  const files = fs.readdir(dir);
+
+  for (const file of await files) {
+    const filePath = path.join(dir, file);
+    const stat = fs.stat(filePath);
+
+    if ((await stat).isDirectory()) {
+      results = results.concat(await getMarkdownFiles(filePath));
+    } else if (file.endsWith('.md')) {
+      results.push(filePath);
+    }
+  }
+
+  return results;
 }
 
 export async function getVaultPath() {
