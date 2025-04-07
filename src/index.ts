@@ -55,8 +55,8 @@ program
 program
   .command('stats')
   .description('Displays statistics about your vault and its notes.')
-  .action(() => {
-    commands.getStats();
+  .action(async () => {
+    await commands.getStats();
   });
 
 program.parse(process.argv);
