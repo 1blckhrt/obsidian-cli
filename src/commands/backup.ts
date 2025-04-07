@@ -1,4 +1,5 @@
 import { promises as fs } from 'node:fs';
+import { logger } from '../util/constants.js';
 import { getVaultPath } from '../util/helpers.js';
 
 /**
@@ -7,21 +8,21 @@ import { getVaultPath } from '../util/helpers.js';
  * @param backupPath - The path to the backup directory.
  */
 export default async function backupVault(backupPath: string) {
-  console.log(`Backing up vault to ${backupPath}`);
+  logger.info(`Backing up vault to ${backupPath}`);
 
   try {
     await fs.access(backupPath);
-    console.log('Found backup directory!');
+    logger.info('Found backup directory!');
   } catch {
-    console.log('Backup directory not found, creating...');
+    logger.info('Backup directory not found, creating...');
     await fs.mkdir(backupPath, { recursive: true });
-    console.log('Backup directory created!');
+    logger.info('Backup directory created!');
   }
 
   try {
     const vaultPath = await getVaultPath();
     await fs.cp(vaultPath, backupPath, { recursive: true });
-    console.log('The backup was successful!');
+    logger.info('The backup was successful!');
   } catch (error) {
     console.error('Failed to backup vault!', error);
   }

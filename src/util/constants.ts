@@ -14,7 +14,6 @@ export type CONFIG_TEMPLATE = {
 };
 
 export const logger = createLogger({
-  level: 'info',
   format: format.combine(
     format.printf(({ level, message }) => {
       return `[${level}]: ${message}`;

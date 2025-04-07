@@ -11,7 +11,6 @@ async function initialize() {
   try {
     await createAllFiles();
     await checkConfigFile();
-    logger.info('Configuration file loaded successfully.');
   } catch (error) {
     logger.error('Error initializing the application:', error);
   }

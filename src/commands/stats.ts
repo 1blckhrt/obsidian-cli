@@ -1,18 +1,19 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
+import { logger } from '../util/constants.js';
 import { getMarkdownFiles, getVaultPath } from '../util/helpers.js';
 
 /*
  * Gets statistics of the vault.
  */
 export default async function getStats() {
-  console.log(`Getting the statistics of your vault.`);
+  logger.info(`Getting the statistics of your vault.`);
 
   const vaultPath = await getVaultPath();
   const files = await getMarkdownFiles(vaultPath);
 
   if (files.length === 0) {
-    console.log('No markdown files found in the vault...');
+    logger.info('No markdown files found in the vault...');
     return;
   }
 

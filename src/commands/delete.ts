@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { select } from '@inquirer/prompts';
 import Fuse from 'fuse.js';
+import { logger } from '../util/constants.js';
 import { getMarkdownFiles, getVaultPath } from '../util/helpers.js';
 
 /**
@@ -13,7 +14,7 @@ export default async function deleteNote(query: string) {
   const directory = path.resolve(await getVaultPath());
   const files = await getMarkdownFiles(directory);
 
-  console.log(`Found ${files.length} markdown files.`);
+  logger.info(`Found ${files.length} markdown files.`);
 
   const fileData = await Promise.all(
     files.map(async (file) => {
@@ -31,10 +32,10 @@ export default async function deleteNote(query: string) {
 
   const results = fuse.search(query);
 
-  console.log(`Found ${results.length} results matching the query.`);
+  logger.info(`Found ${results.length} results matching the query.`);
 
   if (results.length === 0) {
-    console.log('No matching files found.');
+    logger.info('No matching files found.');
     return;
   }
 
@@ -48,7 +49,7 @@ export default async function deleteNote(query: string) {
 
   try {
     await fs.unlink(selectedFile);
-    console.log(`File deleted: ${selectedFile}`);
+    logger.info(`File deleted: ${selectedFile}`);
   } catch (error) {
     console.error(`Failed to delete file: ${selectedFile}`, error);
   }

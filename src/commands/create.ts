@@ -10,7 +10,7 @@ import { createDirectory, getVaultPath } from '../util/helpers.js';
  * @param title - The title of the created note
  */
 export default async function createNote(title: string) {
-  console.log(`Creating note with the title ${title}`);
+  logger.info(`Creating note with the title ${title}`);
 
   const fileName = title.replace(/\.md$/, '').replaceAll(/\s+/g, '_') + '.md';
 
@@ -33,7 +33,7 @@ export default async function createNote(title: string) {
 
   try {
     await writeFile(filePath, content, 'utf8');
-    console.log(`File saved: ${filePath}`);
+    logger.info(`File saved: ${filePath}`);
   } catch (error) {
     console.error(`Failed to save file: ${filePath}`, error);
   }

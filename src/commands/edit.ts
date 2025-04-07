@@ -2,6 +2,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import { editor, select } from '@inquirer/prompts';
 import Fuse from 'fuse.js';
+import { logger } from '../util/constants.js';
 import { getMarkdownFiles, getVaultPath } from '../util/helpers.js';
 
 /**
@@ -13,7 +14,7 @@ export default async function editNote(query: string) {
   const directory = path.resolve(await getVaultPath());
   const files = await getMarkdownFiles(directory);
 
-  console.log(`Found ${files.length} markdown files.`);
+  logger.info(`Found ${files.length} markdown files.`);
 
   const fileData = await Promise.all(
     files.map(async (file) => {
@@ -21,7 +22,7 @@ export default async function editNote(query: string) {
       try {
         content = await fs.readFile(file, 'utf8');
       } catch (error) {
-        console.warn(`Could not read file: ${file}`, error);
+        logger.warn(`Could not read file: ${file}`, error);
       }
 
       return { title: path.basename(file), content, path: file };
@@ -38,10 +39,10 @@ export default async function editNote(query: string) {
 
   const results = fuse.search(query);
 
-  console.log(`Found ${results.length} results matching the query.`);
+  logger.info(`Found ${results.length} results matching the query.`);
 
   if (results.length === 0) {
-    console.log('No matching files found.');
+    logger.info('No matching files found.');
     return;
   }
 
@@ -68,7 +69,7 @@ export default async function editNote(query: string) {
 
   try {
     await fs.writeFile(selectedFile, content, 'utf8');
-    console.log(`File saved: ${selectedFile}`);
+    logger.info(`File saved: ${selectedFile}`);
   } catch (error) {
     console.error(`Failed to save file: ${selectedFile}`, error);
   }
