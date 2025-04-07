@@ -23,7 +23,7 @@ program.name('obsidian-cli').description('CLI tool for managing Obsidian vaults'
 program
   .command('delete')
   .description('Delete a specific note in your vault.')
-  .argument('<title>', 'Title of the note you want to delete.')
+  .argument('<title>', 'Title of the note you want to delete. Fuzzy searches through file names.')
   .action(async (title) => {
     await commands.deleteNote(title);
   });
@@ -31,7 +31,7 @@ program
 program
   .command('edit')
   .description(
-    'Search for a specific phrase in your Vault to edit. Fuzzy searches files and contents.'
+    'Search for a specific phrase in your Vault to edit. Fuzzy searches through files and contents.'
   )
   .argument('<phrase>', 'Phrase that you want to search for')
   .action(async (phrase) => {
@@ -48,7 +48,7 @@ program
 
 program
   .command('backup')
-  .description('Backup your vault to a specified directory')
+  .description('Backup your vault to a specified directory.')
   .argument('<backupPath>', 'Path to the backup location')
   .action(async (backupPath) => {
     await commands.backupVault(backupPath);

@@ -12,7 +12,6 @@ export default async function backupVault(backupPath: string) {
 
   try {
     await fs.access(backupPath);
-    logger.info('Found backup directory!');
   } catch {
     logger.info('Backup directory not found, creating...');
     await fs.mkdir(backupPath, { recursive: true });
